@@ -36,7 +36,7 @@ namespace AdventOfCode
         private IEnumerable<string> SplitStringBy(char splitChar, string inputString)
         {
             var strings = inputString.Split(splitChar);
-            return strings.Take(strings.Length - 2).AsEnumerable();
+            return strings.Take(strings.Length - 1);
         }
     }
 }

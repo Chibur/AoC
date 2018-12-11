@@ -10,21 +10,12 @@ namespace AdventOfCodeTests
 {
     public class Day1Tests
     {
-        private readonly IFixture _fixture;
-        private readonly Mock<IAdventClient> _adventClient;
-
-        public Day1Tests()
-        {
-            _fixture = new Fixture().Customize(new AutoMoqCustomization());
-            _adventClient = _fixture.Freeze<Mock<IAdventClient>>();
-        }
-
-        [Fact]
-        public async Task ShouldReturnCorrentFrequency()
+        [Theory, AutoMoqData]
+        public async Task ShouldReturnCorrentFrequency(Mock<IAdventClient> adventClient)
         {
             // Arrange
-            _adventClient.Setup(c => c.GetFrequencies()).ReturnsAsync(InputList());
-            var day1 = new Day1(_adventClient.Object);
+            adventClient.Setup(c => c.GetFrequencies()).ReturnsAsync(InputList());
+            var day1 = new Day1(adventClient.Object);
 
             // Act
             var result = await day1.CalculateFrequency();
@@ -33,12 +24,12 @@ namespace AdventOfCodeTests
             Assert.Equal(8, result);
         }
 
-        [Fact]
-        public async Task ShouldReturnFirstFrequencyDuplication()
+        [Theory, AutoMoqData]
+        public async Task ShouldReturnFirstFrequencyDuplication(Mock<IAdventClient> adventClient)
         {
             // Arrange
-            _adventClient.Setup(c => c.GetFrequencies()).ReturnsAsync(InputList());
-            var day1 = new Day1(_adventClient.Object);
+            adventClient.Setup(c => c.GetFrequencies()).ReturnsAsync(InputList());
+            var day1 = new Day1(adventClient.Object);
 
             // Act
             var result = await day1.GetFirstFrequencyDuplication();

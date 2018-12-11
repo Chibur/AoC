@@ -33,27 +33,23 @@ namespace AdventOfCode
             var frequencies = await _adventClient.GetFrequencies();
 
             var uniqInputList = new HashSet<int>();
-            var result = 0;
             var sumedFrequency = 0;
+            var duplicateFound = false;
 
-            using (var frequencyEnumerator = frequencies.GetEnumerator())
+            while(!duplicateFound)
             {
-                do
+                foreach(var frequency in frequencies)
                 {
-                    var currentFrequency = int.Parse(frequencyEnumerator.Current);
+                    var currentFrequency = int.Parse(frequency);
                     sumedFrequency += currentFrequency;
-
-                    if (!frequencyEnumerator.MoveNext())
+                    duplicateFound = !uniqInputList.Add(sumedFrequency);
+                    if (duplicateFound)
                     {
-                        frequencyEnumerator.Reset();
+                        break;
                     }
-
-                } while (!uniqInputList.Add(sumedFrequency));
+                }
             }
-              
-
-            return result;
-
+            return sumedFrequency;
         }
     }
 }
