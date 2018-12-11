@@ -23,7 +23,7 @@ namespace AdventOfCodeTests
         public async Task ShouldReturnCorrentFrequency()
         {
             // Arrange
-            _adventClient.Setup(c => c.GetInputListForADayAsync(It.IsAny<string>())).ReturnsAsync(InputList());
+            _adventClient.Setup(c => c.GetFrequencies()).ReturnsAsync(InputList());
             var day1 = new Day1(_adventClient.Object);
 
             // Act
@@ -37,7 +37,7 @@ namespace AdventOfCodeTests
         public async Task ShouldReturnFirstFrequencyDuplication()
         {
             // Arrange
-            _adventClient.Setup(c => c.GetInputListForADayAsync(It.IsAny<string>())).ReturnsAsync(InputList());
+            _adventClient.Setup(c => c.GetFrequencies()).ReturnsAsync(InputList());
             var day1 = new Day1(_adventClient.Object);
 
             // Act

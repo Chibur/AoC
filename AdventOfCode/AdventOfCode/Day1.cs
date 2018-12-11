@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AdventOfCode
@@ -16,31 +17,41 @@ namespace AdventOfCode
 
         public async Task<int> CalculateFrequency()
         {
-            var inputList = await _adventClient.GetInputListForADayAsync("2018/day/1/input");
-            int frequency = 0;
-            inputList.ForEach(i => frequency += int.Parse(i));
-            return frequency;
+            var frequencies = await _adventClient.GetFrequencies();
+            int summedFrequency = 0;
+
+            foreach (var frequency in frequencies)
+            {
+                summedFrequency += int.Parse(frequency);
+            }
+
+            return summedFrequency;
         }
 
         public async Task<int> GetFirstFrequencyDuplication()
         {
-            var inputList = await _adventClient.GetInputListForADayAsync("2018/day/1/input");
+            var frequencies = await _adventClient.GetFrequencies();
 
             var uniqInputList = new HashSet<int>();
             var result = 0;
-            var frequency = 0;
-            foreach(var inputString in inputList)
+            var sumedFrequency = 0;
+
+            using (var frequencyEnumerator = frequencies.GetEnumerator())
             {
-                var inputInt = int.Parse(inputString);
-                frequency += inputInt;
-
-                if (!uniqInputList.Add(frequency))
+                do
                 {
-                    result = frequency;
-                    break;
-                }
+                    var currentFrequency = int.Parse(frequencyEnumerator.Current);
+                    sumedFrequency += currentFrequency;
 
+                    if (!frequencyEnumerator.MoveNext())
+                    {
+                        frequencyEnumerator.Reset();
+                    }
+
+                } while (!uniqInputList.Add(sumedFrequency));
             }
+              
+
             return result;
 
         }

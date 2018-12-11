@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Net;
 
 namespace AdventOfCode
 {
@@ -10,18 +11,18 @@ namespace AdventOfCode
     {
         private Uri _baseUrl => new Uri("https://adventofcode.com");
 
-        public async Task<List<string>> GetInputListForADayAsync(string uri)
+        public async Task<IEnumerable<string>> GetFrequencies()
         {
-            var inputString = await GetInputForADayAsync(uri);
-            var inputList = inputString.Split('\n').ToList();
-            inputList.RemoveAt(inputList.Count() - 1);
-            return inputList;
+            var inputString = await GetInputStringAsync("2018/day/1/input");
+            var frequencies = SplitStringBy('\n', inputString);
+            return frequencies;
         }
 
-        public async Task<string> GetInputForADayAsync (string uri)
+        private async Task<string> GetInputStringAsync(string uri)
         {
             string result;
-            using(var httpClient = new HttpClient())
+
+            using (var httpClient = new HttpClient())
             {
                 httpClient.BaseAddress = _baseUrl;
                 httpClient.DefaultRequestHeaders.Accept.Clear();
@@ -30,6 +31,12 @@ namespace AdventOfCode
                 result = await httpClient.GetStringAsync(uri);
             }
             return result;
+        }
+
+        private IEnumerable<string> SplitStringBy(char splitChar, string inputString)
+        {
+            var strings = inputString.Split(splitChar);
+            return strings.Take(strings.Length - 2).AsEnumerable();
         }
     }
 }
