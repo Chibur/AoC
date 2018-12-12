@@ -6,5 +6,6 @@ namespace AdventOfCode
     public interface IAdventClient
     {
         Task<IEnumerable<string>> GetFrequencies();
+        Task<IEnumerable<string>> GetGetBoxIds();
     }
 }

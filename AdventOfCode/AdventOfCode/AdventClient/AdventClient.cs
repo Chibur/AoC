@@ -3,13 +3,19 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Linq;
-using System.Net;
 
 namespace AdventOfCode
 {
     public class AdventClient: IAdventClient
     {
         private Uri _baseUrl => new Uri("https://adventofcode.com");
+
+        public async Task<IEnumerable<string>> GetGetBoxIds()
+        {
+            var inputString = await GetInputStringAsync("2018/day/2/input");
+            var boxIds = SplitStringBy('\n', inputString);
+            return boxIds;
+        }
 
         public async Task<IEnumerable<string>> GetFrequencies()
         {

@@ -1,7 +1,5 @@
 using System.Threading.Tasks;
 using Xunit;
-using AutoFixture;
-using AutoFixture.AutoMoq;
 using Moq;
 using AdventOfCode;
 using System.Collections.Generic;
@@ -38,7 +36,7 @@ namespace AdventOfCodeTests
             Assert.Equal(1, result);
         } 
 
-        private List<string> InputList()
+        private IEnumerable<string> InputList()
         {
             return new List<string>
             {
