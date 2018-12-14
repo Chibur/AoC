@@ -10,7 +10,7 @@ namespace AdventOfCode
     {
         private Uri _baseUrl => new Uri("https://adventofcode.com");
 
-        public async Task<IEnumerable<string>> GetGetBoxIds()
+        public async Task<IEnumerable<string>> GetBoxIds()
         {
             var inputString = await GetInputStringAsync("2018/day/2/input");
             var boxIds = SplitStringBy('\n', inputString);
@@ -42,7 +42,7 @@ namespace AdventOfCode
         private IEnumerable<string> SplitStringBy(char splitChar, string inputString)
         {
             var strings = inputString.Split(splitChar);
-            return strings.Take(strings.Length - 1);
+            return strings.SkipLast(1);
         }
     }
 }

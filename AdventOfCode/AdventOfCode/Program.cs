@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace AdventOfCode
 {
@@ -31,7 +32,7 @@ namespace AdventOfCode
             Console.WriteLine($"Day 2 checksum: {checksum}");
 
             var boxId = day2.GetStringOfCommonLettersFromMostSimilarBoxIds().Result;
-            Console.WriteLine($"Day 2 BoxId : {boxId}");
+            Console.WriteLine($"Day 2 BoxId : {boxId}, {stopwatchtime}");
         }
     }
 }

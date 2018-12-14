@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq;
 using Xunit;
 
 namespace AdventOfCodeTests
@@ -14,7 +15,7 @@ namespace AdventOfCodeTests
         public async Task ShouldReturnCorrentCheckSum(Mock<IAdventClient> adventClient)
         {
             // Arrange
-            adventClient.Setup(c => c.GetGetBoxIds()).ReturnsAsync(PartOneList());
+            adventClient.Setup(c => c.GetBoxIds()).ReturnsAsync(PartOneList());
             var day2 = new Day2(adventClient.Object);
 
             // Act
@@ -28,7 +29,7 @@ namespace AdventOfCodeTests
         public async Task ShouldReturnCommonLettersOfMostSimilarIds(Mock<IAdventClient> adventClient)
         {
             // Arrange
-            adventClient.Setup(c => c.GetGetBoxIds()).ReturnsAsync(PartTwoList());
+            adventClient.Setup(c => c.GetBoxIds()).ReturnsAsync(PartTwoList());
             var day2 = new Day2(adventClient.Object);
 
             // Act

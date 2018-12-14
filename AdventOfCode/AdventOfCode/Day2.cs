@@ -2,6 +2,7 @@
 using System.Linq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace AdventOfCode
 {
@@ -16,7 +17,7 @@ namespace AdventOfCode
 
         public async Task<int> CalculateChecksum()
         {
-            var boxIds = await _adventClient.GetGetBoxIds();
+            var boxIds = await _adventClient.GetBoxIds();
             var countOfPair = 0;
             var countOfTriplet = 0;
             var foundPair = false;
@@ -53,9 +54,10 @@ namespace AdventOfCode
 
         public async Task<string> GetStringOfCommonLettersFromMostSimilarBoxIds()
         {
-            var boxIds = await _adventClient.GetGetBoxIds();
+            var boxIds = await _adventClient.GetBoxIds();
             var (firstId, secondId) = FindMostSimilarBoxIds(boxIds.ToList());
             var commonLetterString = RemoveLetterThatDiffer(firstId, secondId);
+    
             return commonLetterString;
         }
 
@@ -64,23 +66,21 @@ namespace AdventOfCode
             var firstSimilarId = string.Empty;
             var secondSimilarId = string.Empty;
 
-            for(var i = 0; i < boxIds.Count(); i++)
+            boxIds.Sort();
+            for (var i = 0; i < boxIds.Count() - 1; i++)
             {
-                var firstId = boxIds[i];
+                var IdsToCompare = boxIds.Skip(i).Take(2).ToList();
 
-                for(var j = i + 1; j < boxIds.Count() - 1; j++)
+                var countOfDifferectLetters = GetNumberOfDifferetLetters(IdsToCompare[0], IdsToCompare[1]);
+
+                if (countOfDifferectLetters == 1)
                 {
-                    var secondId = boxIds[j];
-                    var countOfDifferectLetters = GetNumberOfDifferetLetters(firstId, secondId);
-
-                    if (countOfDifferectLetters == 1)
-                    {
-                        firstSimilarId = firstId;
-                        secondSimilarId = secondId;
-                        break;
-                    }
+                    firstSimilarId = IdsToCompare[0];
+                    secondSimilarId = IdsToCompare[1];
+                    break;
                 }
             }
+
             return (firstSimilarId, secondSimilarId);
         }
 
