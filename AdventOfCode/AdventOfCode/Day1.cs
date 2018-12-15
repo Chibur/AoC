@@ -1,6 +1,5 @@
-﻿using System;
+﻿using AdventOfCode.AdventInput;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AdventOfCode
@@ -8,16 +7,16 @@ namespace AdventOfCode
     
     public class Day1
     {
-        private readonly IAdventClient _adventClient;
-    
-        public Day1(IAdventClient adventClient)
+        private readonly IAdventInputProvider _adventInput;
+
+        public Day1(IAdventInputProvider adventInput)
         {
-            _adventClient = adventClient;
+            _adventInput = adventInput;
         }
 
         public async Task<int> CalculateFrequency()
         {
-            var frequencies = await _adventClient.GetFrequencies();
+            var frequencies = await _adventInput.GetFrequencies();
             int summedFrequency = 0;
 
             foreach (var frequency in frequencies)
@@ -30,7 +29,7 @@ namespace AdventOfCode
 
         public async Task<int> GetFirstFrequencyDuplication()
         {
-            var frequencies = await _adventClient.GetFrequencies();
+            var frequencies = await _adventInput.GetFrequencies();
 
             var uniqInputList = new HashSet<int>();
             var sumedFrequency = 0;

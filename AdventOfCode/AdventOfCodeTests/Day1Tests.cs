@@ -3,17 +3,18 @@ using Xunit;
 using Moq;
 using AdventOfCode;
 using System.Collections.Generic;
+using AdventOfCode.AdventInput;
 
 namespace AdventOfCodeTests
 {
     public class Day1Tests
     {
         [Theory, AutoMoqData]
-        public async Task ShouldReturnCorrentFrequency(Mock<IAdventClient> adventClient)
+        public async Task ShouldReturnCorrentFrequency(Mock<IAdventInputProvider> adventInput)
         {
             // Arrange
-            adventClient.Setup(c => c.GetFrequencies()).ReturnsAsync(InputList());
-            var day1 = new Day1(adventClient.Object);
+            adventInput.Setup(c => c.GetFrequencies()).ReturnsAsync(InputList());
+            var day1 = new Day1(adventInput.Object);
 
             // Act
             var result = await day1.CalculateFrequency();
@@ -23,11 +24,11 @@ namespace AdventOfCodeTests
         }
 
         [Theory, AutoMoqData]
-        public async Task ShouldReturnFirstFrequencyDuplication(Mock<IAdventClient> adventClient)
+        public async Task ShouldReturnFirstFrequencyDuplication(Mock<IAdventInputProvider> adventInput)
         {
             // Arrange
-            adventClient.Setup(c => c.GetFrequencies()).ReturnsAsync(InputList());
-            var day1 = new Day1(adventClient.Object);
+            adventInput.Setup(c => c.GetFrequencies()).ReturnsAsync(InputList());
+            var day1 = new Day1(adventInput.Object);
 
             // Act
             var result = await day1.GetFirstFrequencyDuplication();

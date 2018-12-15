@@ -3,21 +3,22 @@ using System.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using AdventOfCode.AdventInput;
 
 namespace AdventOfCode
 {
     public class Day2
     {
-        private readonly IAdventClient _adventClient;
+        private readonly IAdventInputProvider _adventInput;
 
-        public Day2(IAdventClient adventClient)
+        public Day2(IAdventInputProvider adventInput)
         {
-            _adventClient = adventClient;
+            _adventInput = adventInput;
         }
 
         public async Task<int> CalculateChecksum()
         {
-            var boxIds = await _adventClient.GetBoxIds();
+            var boxIds = await _adventInput.GetBoxIds();
             var countOfPair = 0;
             var countOfTriplet = 0;
             var foundPair = false;
@@ -54,7 +55,7 @@ namespace AdventOfCode
 
         public async Task<string> GetStringOfCommonLettersFromMostSimilarBoxIds()
         {
-            var boxIds = await _adventClient.GetBoxIds();
+            var boxIds = await _adventInput.GetBoxIds();
             var (firstId, secondId) = FindMostSimilarBoxIds(boxIds.ToList());
             var commonLetterString = RemoveLetterThatDiffer(firstId, secondId);
     

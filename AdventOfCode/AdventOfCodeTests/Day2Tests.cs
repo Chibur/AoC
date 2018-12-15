@@ -1,22 +1,20 @@
 ﻿using AdventOfCode;
 using Moq;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
-using System.Linq;
 using Xunit;
+using AdventOfCode.AdventInput;
 
 namespace AdventOfCodeTests
 {
     public class Day2Tests
     {
         [Theory, AutoMoqData]
-        public async Task ShouldReturnCorrentCheckSum(Mock<IAdventClient> adventClient)
+        public async Task ShouldReturnCorrentCheckSum(Mock<IAdventInputProvider> adventInput)
         {
             // Arrange
-            adventClient.Setup(c => c.GetBoxIds()).ReturnsAsync(PartOneList());
-            var day2 = new Day2(adventClient.Object);
+            adventInput.Setup(c => c.GetBoxIds()).ReturnsAsync(PartOneList());
+            var day2 = new Day2(adventInput.Object);
 
             // Act
             var result = await day2.CalculateChecksum();
@@ -26,11 +24,11 @@ namespace AdventOfCodeTests
         }
 
         [Theory, AutoMoqData]
-        public async Task ShouldReturnCommonLettersOfMostSimilarIds(Mock<IAdventClient> adventClient)
+        public async Task ShouldReturnCommonLettersOfMostSimilarIds(Mock<IAdventInputProvider> adventInput)
         {
             // Arrange
-            adventClient.Setup(c => c.GetBoxIds()).ReturnsAsync(PartTwoList());
-            var day2 = new Day2(adventClient.Object);
+            adventInput.Setup(c => c.GetBoxIds()).ReturnsAsync(PartTwoList());
+            var day2 = new Day2(adventInput.Object);
 
             // Act
             var result = await day2.GetStringOfCommonLettersFromMostSimilarBoxIds();

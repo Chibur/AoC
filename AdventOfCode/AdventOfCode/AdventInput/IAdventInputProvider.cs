@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace AdventOfCode
+namespace AdventOfCode.AdventInput
 {
-    public interface IAdventClient
+    public interface IAdventInputProvider
     {
         Task<IEnumerable<string>> GetFrequencies();
         Task<IEnumerable<string>> GetBoxIds();
+        Task<IEnumerable<ElfsFabricClaim>> GetElfsFabricClaims();
     }
 }
