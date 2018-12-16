@@ -1,6 +1,7 @@
 ﻿using AdventOfCode.AdventClient;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,20 +30,17 @@ namespace AdventOfCode.AdventInput
 
         public async Task<IEnumerable<ElfsFabricClaim>> GetElfsFabricClaims()
         {
-            var elfsClaimsAsStrings = await _adventClient.GetInputStringListAsync("2018/day/3/input");
+            var elfsClaimsStrings = await _adventClient.GetInputStringListAsync("2018/day/3/input");
             var elfsClaims = new List<ElfsFabricClaim>();
 
-            foreach (var claimAsString in elfsClaimsAsStrings)
+            foreach (var claimString in elfsClaimsStrings)
             {
-                var claim = ParseElfFabricClaim(claimAsString);
+                var claim = new ElfsFabricClaim(claimString);
                 elfsClaims.Add(claim);
             }
             return elfsClaims;
         }
 
-        private ElfsFabricClaim ParseElfFabricClaim(string elfClaimAsStrings)
-        {
-           
-        }
+      
     }
 }

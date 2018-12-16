@@ -11,6 +11,7 @@ namespace AdventOfCode
         {
             SolveDay1();
             SolveDay2();
+            SolveDay3();
         }
 
         static void SolveDay1()
@@ -37,6 +38,19 @@ namespace AdventOfCode
 
             var boxId = day2.GetStringOfCommonLettersFromMostSimilarBoxIds().Result;
             Console.WriteLine($"Day 2 BoxId : {boxId}");
+        }
+
+        static void SolveDay3()
+        {
+            var adventClient = new AdventHttpClient();
+            var adventInput = new AdventInputProvider(adventClient);
+            var day3 = new Day3(adventInput);
+
+            var overlapingInches = day3.CountFabricInchesOverlaping().Result;
+            Console.WriteLine($"Day 3 Overlaping Inches: {overlapingInches}");
+
+            var nonOverlapingClaimId = day3.GetNonOverlapingClaimId().Result;
+            Console.WriteLine($"Day 3 Non Overlaping Claim Id: {nonOverlapingClaimId}");
         }
     }
 }
