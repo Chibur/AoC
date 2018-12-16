@@ -1,4 +1,5 @@
 ﻿using AdventOfCode.AdventClient;
+using AdventOfCode.AdventInput.Guards;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,12 +36,19 @@ namespace AdventOfCode.AdventInput
 
             foreach (var claimString in elfsClaimsStrings)
             {
-                var claim = new ElfsFabricClaim(claimString);
+                var claim = ElfsFabricClaim.Parse(claimString);
                 elfsClaims.Add(claim);
             }
             return elfsClaims;
         }
 
-      
+        public async Task<IEnumerable<Guard>> GetGuardActions()
+        {
+            var guardActionStrings = await _adventClient.GetInputStringListAsync("2018/day/4/input");
+            var a = guardActionStrings.ToList();
+            a.Sort(new ActionTimestampComparer());
+
+            return new List<Guard>();
+        }
     }
 }

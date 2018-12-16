@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using AdventOfCode.AdventInput.Guards;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AdventOfCode.AdventInput
@@ -8,5 +9,6 @@ namespace AdventOfCode.AdventInput
         Task<IEnumerable<string>> GetFrequencies();
         Task<IEnumerable<string>> GetBoxIds();
         Task<IEnumerable<ElfsFabricClaim>> GetElfsFabricClaims();
+        Task<IEnumerable<Guard>> GetGuardActions();
     }
 }

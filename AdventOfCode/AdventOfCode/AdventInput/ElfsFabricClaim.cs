@@ -23,10 +23,16 @@ namespace AdventOfCode.AdventInput
 
         public ElfsFabricClaim(string claim)
         {
-            ParseElfFabricClaim(claim);
+            var parsedClaim = Parse(claim);
+            Id = parsedClaim.Id;
+            OffsetLeft = parsedClaim.OffsetLeft;
+            OffsetTop = parsedClaim.OffsetTop;
+            Width = parsedClaim.Width;
+            Height = parsedClaim.Height;
+
         }
 
-        private void ParseElfFabricClaim(string elfClaimString)
+        public static ElfsFabricClaim Parse(string elfClaimString)
         {
             var splitString = elfClaimString.Split(' ');
 
@@ -34,11 +40,16 @@ namespace AdventOfCode.AdventInput
             var offsets = splitString[2].Split(',', ':');
             var measurements = splitString[3].Split('x');
 
-            Id = int.Parse(id);
-            OffsetLeft = int.Parse(offsets[0]);
-            OffsetTop = int.Parse(offsets[1]);
-            Width = int.Parse(measurements[0]);
-            Height = int.Parse(measurements[1]);
+            var claim = new ElfsFabricClaim
+            {
+                Id = int.Parse(id),
+                OffsetLeft = int.Parse(offsets[0]),
+                OffsetTop = int.Parse(offsets[1]),
+                Width = int.Parse(measurements[0]),
+                Height = int.Parse(measurements[1])
+            };
+
+            return claim;     
         }
 
     }
