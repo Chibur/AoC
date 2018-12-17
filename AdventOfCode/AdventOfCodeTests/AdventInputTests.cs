@@ -43,7 +43,7 @@ namespace AdventOfCodeTests
             var adventInput = new AdventInputProvider(adventClient.Object);
 
             // Act
-            var guards = await adventInput.GetGuardActions();
+            var guards = (await adventInput.GetGuards()).ToList();
             var guardActions = guards.First(g => g.Id == 1).Actions;
 
             // Asset
@@ -52,8 +52,11 @@ namespace AdventOfCodeTests
             Assert.Equal(ActionType.BeginsShift, guardActions[0].Type);
             Assert.Equal(DateTime.Parse("1518-01-01 00:01"), guardActions[0].Timestamp);
 
-            Assert.Equal(ActionType.FallsAsleep, guardActions[0].Type);
-            Assert.Equal(ActionType.WakesUp, guardActions[0].Type);
+            Assert.Equal(ActionType.FallsAsleep, guardActions[1].Type);
+            Assert.Equal(ActionType.WakesUp, guardActions[2].Type);
+
+            Assert.Equal(ActionType.BeginsShift, guardActions[3].Type);
+            Assert.Equal(DateTime.Parse("1518-07-01 00:01"), guardActions[3].Timestamp);
         }
 
 
@@ -76,6 +79,7 @@ namespace AdventOfCodeTests
                     "[1518-01-30 23:48] Guard #2 begins shift",
                     "[1518-01-31 00:57] wakes up",
                     "[1518-06-10 00:41] Guard #3 begins shift",
+                    "[1518-07-01 00:01] Guard #1 begins shift",
                     "[1518-01-31 00:33] falls asleep",
                     "[1518-01-01 00:01] Guard #1 begins shift",
                     "[1518-01-31 00:47] falls asleep",

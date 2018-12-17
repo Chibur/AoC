@@ -17,15 +17,13 @@ namespace AdventOfCode.AdventInput.Guards
             {
                 return 1;
             }
-            else if (timeX == timeY)
+
+            if (timeX == timeY)
             {
                 return 0;
             }
-            else
-            {
-                return -1;
-            }
 
+            return -1;
         }
     }
 }

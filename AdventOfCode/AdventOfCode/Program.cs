@@ -9,9 +9,10 @@ namespace AdventOfCode
     {
         static void Main(string[] args)
         {
-            SolveDay1();
-            SolveDay2();
-            SolveDay3();
+           // SolveDay1();
+           // SolveDay2();
+          //  SolveDay3();
+            SolveDay4();
         }
 
         static void SolveDay1()
@@ -46,11 +47,21 @@ namespace AdventOfCode
             var adventInput = new AdventInputProvider(adventClient);
             var day3 = new Day3(adventInput);
 
-            var overlapingInches = day3.CountFabricInchesOverlaping().Result;
-            Console.WriteLine($"Day 3 Overlaping Inches: {overlapingInches}");
+            var overlappingInches = day3.CountFabricInchesOverlaping().Result;
+            Console.WriteLine($"Day 3 Overlapping Inches: {overlappingInches}");
 
-            var nonOverlapingClaimId = day3.GetNonOverlapingClaimId().Result;
-            Console.WriteLine($"Day 3 Non Overlaping Claim Id: {nonOverlapingClaimId}");
+            var nonOverlappingClaimId = day3.GetNonOverlapingClaimId().Result;
+            Console.WriteLine($"Day 3 Non Overlapping Claim Id: {nonOverlappingClaimId}");
+        }
+
+        static void SolveDay4()
+        {
+            var adventClient = new AdventHttpClient();
+            var adventInput = new AdventInputProvider(adventClient);
+            var day4 = new Day4(adventInput);
+
+            var idMinuteResult = day4.FindGuardIdAndMinute().Result;
+            Console.WriteLine($"Day 4 Best Minute to go and guard Id multiplication result: {idMinuteResult}");
         }
     }
 }

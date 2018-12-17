@@ -4,7 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Action = AdventOfCode.AdventInput.Guards.Action;
 
 namespace AdventOfCode.AdventInput
 {
@@ -42,13 +44,57 @@ namespace AdventOfCode.AdventInput
             return elfsClaims;
         }
 
-        public async Task<IEnumerable<Guard>> GetGuardActions()
+        public async Task<IEnumerable<Guard>> GetGuards()
         {
             var guardActionStrings = await _adventClient.GetInputStringListAsync("2018/day/4/input");
-            var a = guardActionStrings.ToList();
-            a.Sort(new ActionTimestampComparer());
+            var guards = ParseGuards(guardActionStrings.ToList());
+            return guards;
+        }
 
-            return new List<Guard>();
+        private IEnumerable<Guard> ParseGuards(List<string> guardActions)
+        {
+
+            var dateTimeExp = new Regex("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}", RegexOptions.Compiled);
+            var idExp = new Regex("#\\d+", RegexOptions.Compiled);
+            var actionExp = new Regex("[a-z]+ [a-z]+$", RegexOptions.Compiled);
+
+            guardActions.Sort(new ActionTimestampComparer());
+
+            var guards = new List<Guard>();
+            var currentGuardId = 0;
+
+            foreach (var actionLog in guardActions)
+            {
+                if (idExp.IsMatch(actionLog))
+                {
+                    var guardId = int.Parse(idExp.Match(actionLog).Value.Substring(1));
+                    currentGuardId = guardId;
+
+                    if (!guards.Exists(g => g.Id == guardId))
+                    {
+                        var newGuard = GetInitGuardObject();
+                        newGuard.Id = guardId;
+                        guards.Add(newGuard);
+                    }
+                }
+
+                var guard = guards.First(g => g.Id == currentGuardId);
+                var timestamp = dateTimeExp.Match(actionLog);
+                var action = actionExp.Match(actionLog);
+
+                guard.Actions.Add(new Action
+                {
+                    Timestamp = DateTime.Parse(timestamp.Value),
+                    Type = action.Value
+                });
+            }
+
+            return guards;
+        }
+
+        private Guard GetInitGuardObject()
+        {
+            return new Guard {Actions = new List<Action>()};
         }
     }
 }
