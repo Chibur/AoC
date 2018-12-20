@@ -7,6 +7,7 @@ using AdventOfCode.AdventInput.Guards;
 
 namespace AdventOfCode
 {
+    // TODO: refactor to use use strategy pattern
     public class Day4
     {
         private readonly IAdventInputProvider _adventInput;
@@ -16,13 +17,13 @@ namespace AdventOfCode
             _adventInput = adventInput;
         }
 
-        public async Task<int> FindGuardIdAndMinute()
+        public async Task<int> FindLongestSleepingGuardAndMinuteToSneak()
         {
             var guards = await _adventInput.GetGuards();
 
             var sleepiestGuard = guards.Select(guard =>
             {
-                var totalSleepTime = GetSleepingIntervals(guard.Actions).Sum(g => g.Ticks);
+                var totalSleepTime = GetSleepingIntervals(guard.Actions).Sum(g => g.WakesUpAt - g.FellAsleepAt);
                 return ( Guard: guard, totalSleepTime);
             })
             .OrderByDescending(g => g.totalSleepTime)
@@ -31,33 +32,58 @@ namespace AdventOfCode
 
             var bestMinuteToSneak = FingBestMinuteToSneak(sleepiestGuard);
 
-            return 0;
+            return bestMinuteToSneak * sleepiestGuard.Id;
+        }
+
+        public async Task<int> FindGuardMostFrequentlyAsleepAndMinuteToSneak()
+        {
+            var guards = await _adventInput.GetGuards();
+
+            var mostFrequentlyAsleepGuard = guards.Select(guard =>
+            {
+                var totalTimesAsleep = GetSleepingIntervals(guard.Actions).Count();
+                return (Guard: guard, totalTimesAsleep);
+            })
+           .OrderByDescending(g => g.totalTimesAsleep)
+           .First()
+           .Guard;
+
+            var bestMinuteToSneak = FingBestMinuteToSneak(mostFrequentlyAsleepGuard);
+
+            return bestMinuteToSneak * mostFrequentlyAsleepGuard.Id;
         }
 
         private int FingBestMinuteToSneak(Guard sleepiestGuard)
         {
-            var startOfRange = 0;
-            var endOfRange = 59;
-            var sleepIntervals = GetSleepingIntervals(sleepiestGuard.Actions);
+            var sleepHistogram = new Dictionary<int, int>();
 
-            return 0;
-
+            foreach(var sleepInterval in GetSleepingIntervals(sleepiestGuard.Actions))
+            {
+                for(int i = sleepInterval.FellAsleepAt; i < sleepInterval.WakesUpAt; i++)
+                {
+                    if (!sleepHistogram.TryAdd(i,1))
+                    {
+                        sleepHistogram[i]++;
+                    }
+                }
+            }
+            return sleepHistogram.OrderByDescending(h => h.Value).First().Key;
         }
 
-        private IEnumerable<TimeSpan> GetSleepingIntervals(IEnumerable<AdventInput.Guards.Action> actions)
+        private IEnumerable<(int FellAsleepAt, int WakesUpAt)> GetSleepingIntervals(IEnumerable<AdventInput.Guards.Action> actions)
         {
-            var fellAsleepAt = DateTime.MinValue;
-            List<TimeSpan> sleepingIntervals = new List<TimeSpan>();
+            var fellAsleepAt = 0;
+            var sleepingIntervals = new List<(int, int)>();
             foreach (var action in actions)
             {
                 switch (action.Type)
                 {
                     case ActionType.FallsAsleep:
-                        fellAsleepAt = action.Timestamp;
+                        fellAsleepAt = action.Timestamp.Minute;
                         break;
                     case ActionType.WakesUp:
-                        var amountSlept = action.Timestamp - fellAsleepAt;
-                        sleepingIntervals.Add(amountSlept);
+                        var wakesUpAt = action.Timestamp.Minute;
+                        sleepingIntervals.Add((fellAsleepAt, wakesUpAt));
                         break;
                     default:
                         break;

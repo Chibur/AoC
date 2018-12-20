@@ -1,7 +1,6 @@
 ﻿using AdventOfCode.AdventClient;
 using AdventOfCode.AdventInput;
 using System;
-using System.Diagnostics;
 
 namespace AdventOfCode
 {
@@ -9,14 +8,15 @@ namespace AdventOfCode
     {
         static void Main(string[] args)
         {
-           // SolveDay1();
-           // SolveDay2();
-          //  SolveDay3();
+            SolveDay1();
+            SolveDay2();
+            SolveDay3();
             SolveDay4();
         }
 
         static void SolveDay1()
         {
+            // TODO: dependancy injection
             var adventClient = new AdventHttpClient();
             var adventInput = new AdventInputProvider(adventClient);
             var day1 = new Day1(adventInput);
@@ -60,8 +60,11 @@ namespace AdventOfCode
             var adventInput = new AdventInputProvider(adventClient);
             var day4 = new Day4(adventInput);
 
-            var idMinuteResult = day4.FindGuardIdAndMinute().Result;
-            Console.WriteLine($"Day 4 Best Minute to go and guard Id multiplication result: {idMinuteResult}");
+            var longestSleepingResult = day4.FindLongestSleepingGuardAndMinuteToSneak().Result;
+            Console.WriteLine($"Day 4 Best Minute to go and longest sleeping guard id and minute multiplication result: {longestSleepingResult}");
+
+            var mostFrequentlySleepingResult = day4.FindGuardMostFrequentlyAsleepAndMinuteToSneak().Result;
+            Console.WriteLine($"Day 4 Best Minute to go and most frequently sleeping guard id and minute multiplication result: {mostFrequentlySleepingResult}");
         }
     }
 }
