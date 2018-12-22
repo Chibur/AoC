@@ -24,7 +24,7 @@ namespace AdventOfCode
             var sleepiestGuard = guards.Select(guard =>
             {
                 var totalSleepTime = GetSleepingIntervals(guard.Actions).Sum(g => g.WakesUpAt - g.FellAsleepAt);
-                return ( Guard: guard, totalSleepTime);
+                return (Guard: guard, totalSleepTime);
             })
             .OrderByDescending(g => g.totalSleepTime)
             .First()
@@ -41,27 +41,24 @@ namespace AdventOfCode
 
             var mostFrequentlyAsleepGuard = guards.Select(guard =>
             {
-                var totalTimesAsleep = GetSleepingIntervals(guard.Actions).Count();
-                return (Guard: guard, totalTimesAsleep);
+                var bestMinuteToSneak = FingBestMinuteToSneak(guard);
+                return (Guard: guard, BestMinuteToSneak :bestMinuteToSneak);
             })
-           .OrderByDescending(g => g.totalTimesAsleep)
-           .First()
-           .Guard;
+           .OrderByDescending(g => g.BestMinuteToSneak)
+           .First();
 
-            var bestMinuteToSneak = FingBestMinuteToSneak(mostFrequentlyAsleepGuard);
-
-            return bestMinuteToSneak * mostFrequentlyAsleepGuard.Id;
+            return mostFrequentlyAsleepGuard.BestMinuteToSneak * mostFrequentlyAsleepGuard.Guard.Id;
         }
 
         private int FingBestMinuteToSneak(Guard sleepiestGuard)
         {
             var sleepHistogram = new Dictionary<int, int>();
 
-            foreach(var sleepInterval in GetSleepingIntervals(sleepiestGuard.Actions))
+            foreach (var sleepInterval in GetSleepingIntervals(sleepiestGuard.Actions))
             {
-                for(int i = sleepInterval.FellAsleepAt; i < sleepInterval.WakesUpAt; i++)
+                for (int i = sleepInterval.FellAsleepAt; i < sleepInterval.WakesUpAt; i++)
                 {
-                    if (!sleepHistogram.TryAdd(i,1))
+                    if (!sleepHistogram.TryAdd(i, 1))
                     {
                         sleepHistogram[i]++;
                     }
