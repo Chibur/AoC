@@ -94,7 +94,7 @@ namespace AdventOfCode.AdventInput
 
         public async Task<string> GetPolymer()
         {
-            return await _adventClient.GetInputStringAsync("2018/day/4/input");
+            return await _adventClient.GetInputStringAsync("2018/day/5/input");
         }
 
         private Guard GetInitGuardObject()

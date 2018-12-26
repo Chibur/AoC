@@ -45,7 +45,7 @@ namespace AdventOfCode
                 return (Guard: guard, BestMinuteToSneak :bestMinuteToSneak);
             })
            .OrderByDescending(g => g.BestMinuteToSneak)
-           .First();
+           .FirstOrDefault();
 
             return mostFrequentlyAsleepGuard.BestMinuteToSneak * mostFrequentlyAsleepGuard.Guard.Id;
         }

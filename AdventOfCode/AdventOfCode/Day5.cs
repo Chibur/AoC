@@ -1,6 +1,7 @@
-﻿using AdventOfCode.AdventInput;
-using System;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
+using AdventOfCode.AdventInput;
 
 namespace AdventOfCode
 {
@@ -16,7 +17,33 @@ namespace AdventOfCode
         public async Task<string> GetReducedPolymer()
         {
             var polymer = await _adventInput.GetPolymer();
-            return String.Empty;
+            var reducedPolymer = RuducePolymer(polymer);
+            return reducedPolymer;
+        }
+
+        private string RuducePolymer(string polymer)
+        {
+            var isReduced = false;
+            do
+            {
+                isReduced = false;
+                for (var i = 'a'; i <= 'z'; i++)
+                {
+                    var pair1 = $"{i}{char.ToUpper(i)}";
+                    var pair2 = $"{char.ToUpper(i)}{i}";
+                    polymer.Substring()
+
+                    if (shouldReduce)
+                    {
+                        polymer = polymer.Remove(i, 2);
+                        isReduced = true;
+                        Console.WriteLine(polymer);
+                        break;
+                    }
+                }
+            } while (isReduced);
+           
+            return polymer;
         }
     }
 }

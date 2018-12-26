@@ -11,7 +11,8 @@ namespace AdventOfCode
             SolveDay1();
             SolveDay2();
             SolveDay3();
-            SolveDay4();
+        //    SolveDay4();
+            SolveDay5();
         }
 
         static void SolveDay1()
@@ -66,5 +67,19 @@ namespace AdventOfCode
             var mostFrequentlySleepingResult = day4.FindGuardMostFrequentlyAsleepAndMinuteToSneak().Result;
             Console.WriteLine($"Day 4 Best Minute to go and most frequently sleeping guard id and minute multiplication result: {mostFrequentlySleepingResult}");
         }
+
+        static void SolveDay5()
+        {
+            var adventClient = new AdventHttpClient();
+            var adventInput = new AdventInputProvider(adventClient);
+            var day5 = new Day5(adventInput);
+
+            var reducedPolymer = day5.GetReducedPolymer().Result;
+            Console.WriteLine($"Day 5 reducer polymer of fabric: {reducedPolymer}");
+
+//            var mostFrequentlySleepingResult = day5.GetReducedPolymer().Result;
+//            Console.WriteLine($"Day 4 Best Minute to go and most frequently sleeping guard id and minute multiplication result: {mostFrequentlySleepingResult}");
+        }
+
     }
 }
