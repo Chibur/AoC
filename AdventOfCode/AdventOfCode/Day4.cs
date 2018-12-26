@@ -64,7 +64,13 @@ namespace AdventOfCode
                     }
                 }
             }
-            return sleepHistogram.OrderByDescending(h => h.Value).First().Key;
+
+            if (sleepHistogram.Count == 0)
+            {
+                return 0;
+            }
+            
+            return sleepHistogram.OrderByDescending(h => h.Value).FirstOrDefault().Key;
         }
 
         private IEnumerable<(int FellAsleepAt, int WakesUpAt)> GetSleepingIntervals(IEnumerable<AdventInput.Guards.Action> actions)

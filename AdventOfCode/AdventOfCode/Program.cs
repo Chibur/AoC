@@ -11,7 +11,7 @@ namespace AdventOfCode
             SolveDay1();
             SolveDay2();
             SolveDay3();
-        //    SolveDay4();
+            SolveDay4();
             SolveDay5();
         }
 
@@ -75,10 +75,10 @@ namespace AdventOfCode
             var day5 = new Day5(adventInput);
 
             var reducedPolymer = day5.GetReducedPolymer().Result;
-            Console.WriteLine($"Day 5 reducer polymer of fabric: {reducedPolymer}");
+            Console.WriteLine($"Day 5 Count of units in reduced polymer of fabric: {reducedPolymer.Length}");
 
-//            var mostFrequentlySleepingResult = day5.GetReducedPolymer().Result;
-//            Console.WriteLine($"Day 4 Best Minute to go and most frequently sleeping guard id and minute multiplication result: {mostFrequentlySleepingResult}");
+            var mostReducedPolymer = day5.GetShortestPossiblePolymer().Result;
+            Console.WriteLine($"Day 5 Count of units in most reduced polymer of fabric: {mostReducedPolymer.Length}");
         }
 
     }

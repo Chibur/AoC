@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using AdventOfCode.AdventInput;
 
@@ -21,29 +24,51 @@ namespace AdventOfCode
             return reducedPolymer;
         }
 
+
+        public async Task<string> GetShortestPossiblePolymer()
+        {
+            var originalPolymer = await _adventInput.GetPolymer();
+            var polymerPrototypes = new List<string>();
+            for (var i = 'a'; i <= 'z'; i++)
+            {
+                var polymer = originalPolymer;
+                polymer = polymer.Replace(i.ToString(), string.Empty);
+                polymer = polymer.Replace(char.ToUpper(i).ToString(), string.Empty);
+                polymer = RuducePolymer(polymer);
+                polymerPrototypes.Add(polymer);
+            }
+            var shortestPossiblePolymer = polymerPrototypes.OrderByDescending(p => p.Length).Last();
+            return shortestPossiblePolymer;
+        }
         private string RuducePolymer(string polymer)
         {
             var isReduced = false;
+            var pairExp = BuildRegEx();
             do
             {
                 isReduced = false;
-                for (var i = 'a'; i <= 'z'; i++)
-                {
-                    var pair1 = $"{i}{char.ToUpper(i)}";
-                    var pair2 = $"{char.ToUpper(i)}{i}";
-                    polymer.Substring()
-
-                    if (shouldReduce)
-                    {
-                        polymer = polymer.Remove(i, 2);
-                        isReduced = true;
-                        Console.WriteLine(polymer);
-                        break;
-                    }
+                if (pairExp.IsMatch(polymer)) {
+                    polymer = pairExp.Replace(polymer, string.Empty);
+                    isReduced = true;
                 }
             } while (isReduced);
            
             return polymer;
+        }
+
+        private Regex BuildRegEx()
+        {
+            var expBuilder = new StringBuilder();
+            for (var i = 'a'; i <= 'z'; i++)
+            {
+                var exp = $"{i}{char.ToUpper(i)}|{char.ToUpper(i)}{i}";
+                expBuilder.Append(exp);
+                if (i != 'z')
+                {
+                    expBuilder.Append("|");
+                }
+            }
+            return new Regex(expBuilder.ToString(), RegexOptions.Compiled);
         }
     }
 }

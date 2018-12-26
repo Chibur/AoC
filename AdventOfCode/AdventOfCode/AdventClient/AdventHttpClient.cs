@@ -15,18 +15,18 @@ namespace AdventOfCode.AdventClient
         {
             string result;
 
-            var proxy = new WebProxy()
-            {
-                Address = new Uri("sadfasdafsdfasdf"),
-                UseDefaultCredentials = true,
-            };
+            //var proxy = new WebProxy()
+            //{
+            //    Address = new Uri("sadfasdafsdfasdf"),
+            //    UseDefaultCredentials = true,
+            //};
 
-            var httpClientHandler = new HttpClientHandler()
-            {
-                Proxy = proxy
-            };
+            //var httpClientHandler = new HttpClientHandler()
+            //{
+            //    Proxy = proxy
+            //};
 
-            using (var httpClient = new HttpClient(httpClientHandler))
+            using (var httpClient = new HttpClient())
             {
                 httpClient.BaseAddress = _baseUrl;
                 httpClient.DefaultRequestHeaders.Accept.Clear();
@@ -37,14 +37,14 @@ namespace AdventOfCode.AdventClient
 
                 result = await httpClient.GetStringAsync(uri);
             }
-            return result;
+            return result.Trim();
         }
 
         public async Task<IEnumerable<string>> GetInputStringListAsync(string uri)
         {
             var rawInput = await GetInputStringAsync(uri);
             var splitInput = rawInput.Split('\n');
-            return splitInput.SkipLast(1);
+            return splitInput;
         }
     }
 }
